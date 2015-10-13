@@ -21,7 +21,7 @@ interface_slaves = db.Table('interface_slaves',
 class Interface(db.Model):
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = db.Column(db.Unicode(128))
-    vlan = db.Column(db.Integer)
+    mac = db.Column(db.Unicode(17), nullable=False)
     node_id = db.Column(db.Unicode)
     if_type = db.Column(db.Unicode)
     slaves = db.relationship('Interface',
@@ -30,25 +30,11 @@ class Interface(db.Model):
             secondaryjoin="interface.c.id==interface_slaves.c.slave",
             backref='parent_iface'
     )
+    interface_properties = db.Column(db.Text)
+    driver = db.Column(db.Text)
+    bus_info = db.Column(db.Text)
+    offloading_modes = db.Column(db.Text)
     provider = db.Column(db.Unicode(25))
-
-
-#class Bond(db.Model):
-#    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-#    name = db.Column(db.Unicode(32))
-#    slave_ifs = db.relationship('Interface', backref='bond')
-    
-#class Port(db.Model):
-#    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-#    bridge_id = db.Column(UUID(as_uuid=True), db.ForeignKey('bridge.id'))
-#    interface_id = db.Column(UUID(as_uuid=True), db.ForeignKey('interface.id'))
-#    bond_id = db.Column(UUID(as_uuid=True), db.ForeignKey('bond.id'))
-     
-
-#class Bridge(db.Model):
-#    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-#    name = db.Column(db.Unicode)
-#    provider = db.Column(db.Unicode(25))
 
 
 class IPAddress(db.Model):
@@ -73,6 +59,7 @@ class Network(db.Model):
     name = db.Column(db.Unicode(50), nullable=False)
     cidr = db.Column(db.Unicode(25))
     gateway = db.Column(db.Unicode(25))
+    vlan = db.Column(db.Integer)
     ip_ranges = db.relationship('IPRange', backref='network',
         cascade='all, delete')
     meta = db.Column(db.Text)
@@ -84,9 +71,6 @@ db.create_all()
 manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
 
 manager.create_api(Interface, methods=['GET', 'POST', 'PUT', 'DELETE'])
-#manager.create_api(Bond, methods=['GET', 'POST', 'PUT', 'DELETE'])
-#manager.create_api(Port, methods=['GET', 'POST', 'PUT', 'DELETE'])
-#manager.create_api(Bridge, methods=['GET', 'POST', 'PUT', 'DELETE'])
 manager.create_api(IPAddress, methods=['GET', 'POST', 'PUT', 'DELETE'])
 manager.create_api(IPRange, methods=['GET', 'POST', 'PUT', 'DELETE'])
 manager.create_api(Network, methods=['GET', 'POST', 'PUT', 'DELETE'])
