@@ -3,15 +3,22 @@ import json
 import os
 import random
 from netaddr import IPRange
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
 
 NAILGUN_PATH=None
+NAILGUN_PATH="/home/ryan/src/fuel/src/fuel-web/nailgun"
 assert NAILGUN_PATH, "Set NAILGUN_PATH to nailgun directory"
 sys.path.insert(0, NAILGUN_PATH)
 
-from illmatic.db import db
-from illmatic.db import models
+from illmatic.model import models
 from nailgun.db import db as ndb
 from nailgun.db.sqlalchemy import models as nmodels
+
+engine = create_engine('postgresql://illmatic:zaq123@localhost/illmatic', convert_unicode=True)
+db = scoped_session(sessionmaker(autocommit=False,
+                                 autoflush=True,
+                                 bind=engine))
 
 def rand_mac():
  return "52:54:00:%02x:%02x:%02x" % (
