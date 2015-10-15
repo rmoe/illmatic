@@ -12,6 +12,10 @@ setup(
     description='',
     author='',
     author_email='',
+    entry_points="""
+    [pecan.command]
+    reset-db=illmatic.cmd.reset_db:GetCommand
+    """,
     install_requires=[
         "pecan",
     ],
