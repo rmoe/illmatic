@@ -29,7 +29,7 @@ class BaseController(object):
     @index.when(method='POST', template='json')
     def on_post(self, **kw):
         if 'id' not in kw:
-            kw['id'] = uuid.uuid4()
+            kw['id'] = str(uuid.uuid4())
         obj = self.model(**kw)
         db.add(obj)
         return obj
