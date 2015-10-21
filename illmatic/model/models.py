@@ -100,3 +100,15 @@ class Network(Base):
             output['ip_ranges'].append(ip_range.__json__())
 
         return output
+
+class Route(Base):
+    __tablename__ = 'routes'
+
+    id = Column(String(64), primary_key=True, default=lambda: str(uuid.uuid4()))
+    name = Column(String(64))
+    nexthop = Column(String(64))
+    netmask = Column(String(64))
+    default = Column(Boolean)
+    metric = Column(Integer)
+    interface_id = Column(String(64), ForeignKey('interface.id',
+                                                     ondelete='CASCADE'))
