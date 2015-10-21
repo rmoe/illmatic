@@ -39,8 +39,11 @@ class Interface(Base):
             backref='parent_iface'
     )
     interface_properties = Column(Text)
+    current_speed = Column(Integer)
+    max_speed = Column(Integer)
     driver = Column(Text)
     bus_info = Column(Text)
+    pxe = Column(Boolean)
     offloading_modes = Column(Text)
     provider = Column(Unicode(25))
 

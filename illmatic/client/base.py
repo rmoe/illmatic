@@ -19,8 +19,11 @@ class BaseManager(object):
 
         return [obj_class(self, res, loaded=True) for res in body if res]
 
-    def _get(self, url):
-        resp, body = self.client.get(url)
+    def _get(self, url, params=None):
+        resp, body = self.client.get(url, params=params)
+
+        if isinstance(body, list):
+            return [self.model(self, b, loaded=True) for b in body]
 
         return self.model(self, body, loaded=True)
 

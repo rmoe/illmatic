@@ -51,3 +51,8 @@ class BaseController(object):
         obj = self._get_object(id)
         db.delete(obj)
         response.status = 204
+
+    @expose(template='json')
+    def filter(self, **kwargs):
+        objs = db.query(self.model).filter_by(**kwargs)
+        return objs.all()

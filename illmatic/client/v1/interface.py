@@ -28,7 +28,8 @@ class InterfaceManager(BaseManager):
 
     def create(self, name, mac, node_id=None, slaves=None,
             interface_properties=None, if_type='ether', driver=None,
-            bus_info=None, offloading_modes=None, provider='linux'):
+            bus_info=None, offloading_modes=None, current_speed=None,
+            max_speed=None, pxe=None, provider='linux'):
         
         params = {"name": name,
                   "mac": mac,
@@ -39,6 +40,11 @@ class InterfaceManager(BaseManager):
                   "driver": driver,
                   "bus_info": bus_info,
                   "offloading_modes": offloading_modes,
+                  "current_speed": current_speed,
+                  "max_speed": max_speed,
                   "provider": provider
                   }
         return self._post('/interfaces/', params)
+
+    def filter(self, **kwargs):
+        return self._get('/interfaces/filter/', kwargs)
