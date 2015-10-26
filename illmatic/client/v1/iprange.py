@@ -1,13 +1,14 @@
 from illmatic.client.base import BaseManager
 from illmatic.client.base import BaseResource
 
+
 class IPRange(BaseResource):
     def delete(self):
         return self.manager.delete(self)
 
 
 class IPRangeManager(BaseManager):
-    
+
     model = IPRange
 
     def __init__(self, client):

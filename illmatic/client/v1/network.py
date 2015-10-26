@@ -8,7 +8,7 @@ class Network(BaseResource):
 
 
 class NetworkManager(BaseManager):
-    
+
     model = Network
 
     def __init__(self, client):

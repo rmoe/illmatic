@@ -1,10 +1,12 @@
 from illmatic.openstack.common.apiclient import base
 
+
 class BaseResource(base.Resource):
     "Base class for resources (interface, network, etc.)"
 
+
 class BaseManager(object):
-    
+
     model = None
 
     def __init__(self, client):

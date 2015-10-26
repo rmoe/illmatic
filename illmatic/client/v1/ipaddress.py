@@ -27,7 +27,7 @@ class IPAddressManager(BaseManager):
         return self._put('/ipaddresses/{0}'.format(ip_address.id), kwargs)
 
     def create(self, address, interface_id=None, ip_range_id=None, meta=None):
-        
+
         params = {'address': address,
                   'interface_id': interface_id,
                   'ip_range_id': ip_range_id,

@@ -27,10 +27,10 @@ class InterfaceManager(BaseManager):
         return self._put('/interfaces/{0}'.format(interface.id), kwargs)
 
     def create(self, name, mac, node_id=None, slaves=None,
-            interface_properties=None, if_type='ether', driver=None,
-            bus_info=None, offloading_modes=None, current_speed=None,
-            max_speed=None, pxe=None, provider='linux'):
-        
+               interface_properties=None, if_type='ether', driver=None,
+               bus_info=None, offloading_modes=None, current_speed=None,
+               max_speed=None, pxe=None, provider='linux'):
+
         params = {"name": name,
                   "mac": mac,
                   "node_id": node_id,

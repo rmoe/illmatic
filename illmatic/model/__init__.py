@@ -9,15 +9,18 @@ metadata = MetaData()
 Base = declarative_base()
 Base.query = Session.query_property()
 
+
 def _engine_from_config(configuration):
     configuration = dict(configuration)
     url = configuration.pop('url')
     return create_engine(url, **configuration)
 
+
 def init_model():
     conf.sqlalchemy.engine = _engine_from_config(conf.sqlalchemy)
     import illmatic.model.models
     Base.metadata.create_all(bind=conf.sqlalchemy.engine)
+
 
 def drop_db():
     import illmatic.model.models
@@ -28,11 +31,14 @@ def start():
     Session.bind = conf.sqlalchemy.engine
     metadata.bind = Session.bind
 
+
 def commit():
     Session.commit()
 
+
 def rollback():
     Session.rollback()
+
 
 def clear():
     Session.remove()

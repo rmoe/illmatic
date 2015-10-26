@@ -6,8 +6,8 @@ from netaddr import IPRange
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-NAILGUN_PATH=None
-NAILGUN_PATH="/home/ryan/src/fuel/src/fuel-web/nailgun"
+NAILGUN_PATH = None
+NAILGUN_PATH = "/home/ryan/src/fuel/src/fuel-web/nailgun"
 assert NAILGUN_PATH, "Set NAILGUN_PATH to nailgun directory"
 sys.path.insert(0, NAILGUN_PATH)
 
@@ -15,17 +15,22 @@ from illmatic.model import models
 from nailgun.db import db as ndb
 from nailgun.db.sqlalchemy import models as nmodels
 
-engine = create_engine('postgresql://illmatic:zaq123@localhost/illmatic', convert_unicode=True)
+engine = create_engine(
+    'postgresql://illmatic:zaq123@localhost/illmatic',
+    convert_unicode=True
+)
 db = scoped_session(sessionmaker(autocommit=False,
                                  autoflush=True,
                                  bind=engine))
 
+
 def rand_mac():
- return "52:54:00:%02x:%02x:%02x" % (
+    return "52:54:00:%02x:%02x:%02x" % (
         random.randint(0, 255),
         random.randint(0, 255),
         random.randint(0, 255),
         )
+
 
 def import_stuff():
     ranges = {}
@@ -50,7 +55,6 @@ def import_stuff():
             db().commit()
 
             ranges[str(new_ipr.id)] = IPRange(ipr.first, ipr.last)
-
 
     slaves = {}
     for iface in ndb().query(nmodels.NodeNICInterface).all():
@@ -93,7 +97,8 @@ def import_stuff():
             for i in ip.node_data.interfaces + ip.node_data.bond_interfaces:
                 if ip.network in [n['id'] for n in i.assigned_networks]:
                     interface_id = \
-                    db().query(models.Interface).filter_by(node_id=str(ip.node),
+                        db().query(models.Interface).filter_by(
+                            node_id=str(ip.node),
                             name=i.name).first().id
 
         if ip.vip_type:
@@ -101,7 +106,7 @@ def import_stuff():
 
         for range_id, ipr in ranges.items():
             if ip.ip_addr in ipr:
-                ipr_id=range_id
+                ipr_id = range_id
                 break
 
         new_ip = models.IPAddress(
@@ -112,6 +117,7 @@ def import_stuff():
         )
         db().add(new_ip)
     db().commit()
+
 
 if __name__ == "__main__":
     import_stuff()

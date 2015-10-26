@@ -3,6 +3,7 @@ from pecan import conf
 from illmatic.model import Base
 import illmatic.model.models
 
+
 class GetCommand(pecan.commands.BaseCommand):
     """
     Drop and recreate all database tables

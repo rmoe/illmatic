@@ -2,7 +2,7 @@ import uuid
 from pecan import expose, abort, response
 from webob.exc import status_map
 from illmatic.model import Session as db
-#from illmatic.model.models import
+
 
 class BaseController(object):
 
@@ -39,8 +39,8 @@ class BaseController(object):
         obj = self._get_object(id)
 
         kw.pop('id', None)
-        
-        for k,v in kw.items():
+
+        for k, v in kw.items():
             setattr(obj, k, v)
 
         db.add(obj)

@@ -32,6 +32,7 @@ class RouteController(BaseController):
 
     model = Route
 
+
 class RootController(object):
 
     networks = NetworkController()
